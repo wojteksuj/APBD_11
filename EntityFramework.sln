@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.API", "EntityFramework.API\EntityFramework.API.csproj", "{A7CF3E00-FDB1-4E76-BA6A-3FEB0DD93DE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7CF3E00-FDB1-4E76-BA6A-3FEB0DD93DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CF3E00-FDB1-4E76-BA6A-3FEB0DD93DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CF3E00-FDB1-4E76-BA6A-3FEB0DD93DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CF3E00-FDB1-4E76-BA6A-3FEB0DD93DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
