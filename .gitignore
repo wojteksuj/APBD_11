@@ -98,3 +98,5 @@ MemoryCaptures/
 # Rider plugin data
 .idea/.rider/
 appsettings.*
+
+*.pkg
