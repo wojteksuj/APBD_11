@@ -9,7 +9,7 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection" : "Data Source=YOUR_SERVER,PORT;User ID=YOUR_USER;Password=YOUR_PASSWORD;Encrypt=True;Trust Server Certificate=True;"
+    "DefaultConnection" : "put your connection string here"
   }
 }
 
