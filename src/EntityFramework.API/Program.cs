@@ -2,6 +2,8 @@ using System.Text.Json;
 using EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using EntityFramework.DTO;
+using EntityFramework.Validators;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("MY_DB")
                         ?? throw new Exception("Connection string not found");
 
 builder.Services.AddDbContext<MasterContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IValidator<DeviceDTO>, DeviceDTOValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -76,33 +79,40 @@ app.MapGet("/api/devices/{id}", async (int id, MasterContext context, Cancellati
     }
 });
 
-app.MapPost("/api/devices", async (DeviceDTO dto, MasterContext context, CancellationToken cancellationToken) =>
+app.MapPost("/api/devices", async (DeviceDTO dto, IValidator<DeviceDTO> validator, MasterContext context, CancellationToken cancellationToken) =>
 {
-    try
+    var result = await validator.ValidateAsync(dto, cancellationToken);
+    if (!result.IsValid)
     {
-        var deviceType = await context.DeviceTypes
-            .FirstOrDefaultAsync(dt => dt.Name == dto.DeviceTypeName, cancellationToken);
-
-        if (deviceType == null)
-            return Results.BadRequest($"Device type '{dto.DeviceTypeName}' not found.");
-
-        var device = new Device
+        var errors = result.Errors.Select(e => new
         {
-            Name = dto.Name,
-            IsEnabled = dto.IsEnabled,
-            AdditionalProperties = JsonSerializer.Serialize(dto.AdditionalProperties),
-            DeviceTypeId = deviceType.Id
-        };
+            e.PropertyName,
+            e.ErrorMessage
+        });
 
-        context.Devices.Add(device);
-        await context.SaveChangesAsync(cancellationToken);
-
-        return Results.Created($"/api/devices/{device.Id}", new { device.Id });
+        return Results.BadRequest(new { Errors = errors });
     }
-    catch (Exception ex)
+
+    var deviceType = await context.DeviceTypes
+        .FirstOrDefaultAsync(dt => dt.Name == dto.DeviceTypeName, cancellationToken);
+
+    if (deviceType == null)
     {
-        return Results.Problem("Failed to create device.");
+        return Results.BadRequest($"Device type '{dto.DeviceTypeName}' not found.");
     }
+
+    var device = new Device
+    {
+        Name = dto.Name,
+        IsEnabled = dto.IsEnabled.Value,
+        AdditionalProperties = JsonSerializer.Serialize(dto.AdditionalProperties),
+        DeviceTypeId = deviceType.Id
+    };
+
+    context.Devices.Add(device);
+    await context.SaveChangesAsync(cancellationToken);
+
+    return Results.Created($"/api/devices/{device.Id}", new { device.Id });
 });
 
 app.MapPut("/api/devices/{id}", async (int id, DeviceDTO dto, MasterContext context, CancellationToken cancellationToken) =>
@@ -120,7 +130,7 @@ app.MapPut("/api/devices/{id}", async (int id, DeviceDTO dto, MasterContext cont
             return Results.BadRequest($"Device type '{dto.DeviceTypeName}' not found.");
 
         device.Name = dto.Name;
-        device.IsEnabled = dto.IsEnabled;
+        device.IsEnabled = dto.IsEnabled.Value;
         device.AdditionalProperties = JsonSerializer.Serialize(dto.AdditionalProperties);
         device.DeviceTypeId = deviceType.Id;
 
