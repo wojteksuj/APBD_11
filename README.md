@@ -1,5 +1,6 @@
 1. appsettings.json template:
 
+```json
 {
   "Logging": {
     "LogLevel": {
@@ -12,6 +13,7 @@
     "DefaultConnection" : "put your connection string here"
   }
 }
+```
 
 
 2. I've made this in one project and splitted contents into folders inside because the scaffold was made in scope on my project so all the models and context were there and
