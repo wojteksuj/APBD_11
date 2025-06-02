@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace DeviceAPI;
+namespace DeviceAPI.DAL;
 
 public partial class MasterContext : DbContext
 {

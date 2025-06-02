@@ -1,12 +1,17 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DeviceAPI;
 using DeviceAPI.DTO;
 using FluentValidation;
 using System.Text.Json;
+using DeviceAPI.DAL;
+
+namespace DeviceAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class DeviceController : ControllerBase
 {
     private readonly MasterContext _context;
@@ -71,6 +76,7 @@ public class DeviceController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateDevice(DeviceDTO dto, CancellationToken cancellationToken)
     {
         var result = await _validator.ValidateAsync(dto, cancellationToken);
@@ -101,6 +107,7 @@ public class DeviceController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> UpdateDevice(int id, DeviceDTO dto, CancellationToken cancellationToken)
     {
         try
@@ -129,6 +136,7 @@ public class DeviceController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeleteDevice(int id, CancellationToken cancellationToken)
     {
         try
@@ -145,6 +153,4 @@ public class DeviceController : ControllerBase
             return Problem("Failed to delete device.");
         }
     }
-} 
-
-
+}
