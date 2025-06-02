@@ -1,2 +1,10 @@
-*APBD_11
-To launch a project insert into appsetting.json provided code: "ConnectionStrings": { "MyDatabse": "put your connection string here" }
+## Database Configuration
+
+To run the project, you need to set up the database connection string.
+
+Open the `appsettings.json` file and insert the following section:
+
+```json
+"ConnectionStrings": {
+  "MyDatabase": "put your connection string here"
+}
