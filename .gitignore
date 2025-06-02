@@ -99,4 +99,4 @@ MemoryCaptures/
 .idea/.rider/
 appsettings.*
 
-*.pkg
+*.pkg 
