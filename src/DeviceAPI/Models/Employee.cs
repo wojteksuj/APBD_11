@@ -20,4 +20,7 @@ public partial class Employee
     public virtual Person Person { get; set; } = null!;
 
     public virtual Position Position { get; set; } = null!;
+    
+    public ICollection<Account> Accounts { get; set; } = new List<Account>();
+
 }
