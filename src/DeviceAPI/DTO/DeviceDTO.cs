@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EntityFramework.DTO;
+namespace DeviceAPI.DTO;
 
 public class DeviceDTO
 {

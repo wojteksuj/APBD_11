@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EntityFramework;
+namespace DeviceAPI;
 
 public partial class Employee
 {

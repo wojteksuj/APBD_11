@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityFramework;
+namespace DeviceAPI;
 
 public partial class MasterContext : DbContext
 {

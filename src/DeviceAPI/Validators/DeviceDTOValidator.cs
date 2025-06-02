@@ -1,7 +1,8 @@
-using EntityFramework.DTO;
+using DeviceAPI.DTO;
+using DeviceAPI.DTO;
 using FluentValidation;
 
-namespace EntityFramework.Validators;
+namespace DeviceAPI.Validators;
 
 public class DeviceDTOValidator : AbstractValidator<DeviceDTO>
 {
